@@ -2,6 +2,10 @@ from flask import Flask, jsonify, request
 from flask_restful import Api, Resource
 from pymongo import MongoClient
 import bcrypt
+import logging
+logging.basicConfig(level=logging.DEBUG,format='%(asctime)s [%(levelname)s] [%(filename)s:%(lineno)d] [%(thread)d] - %(message)s',datefmt='%d/%m/%Y %H:%M:%S',filename='flask.log')
+from logging.handlers import TimedRotatingFileHandler
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -50,6 +54,9 @@ RESOURCES
 
 class Hello(Resource):
     def get(self):
+        app.logger.info("Info message")
+        app.logger.warning("Warning msg")
+        app.logger.error("Error msg!!!")
         return "Hello World!"
 
 
@@ -191,4 +198,4 @@ api.add_resource(Save, '/save')
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='0.0.0.0', debug=False)
